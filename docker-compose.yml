@@ -1,0 +1,20 @@
+version: "3.5"
+services:
+  wildfly:
+    #image: quay.io/wildfly/wildfly:27.0.0.Final-jdk11
+    build: .
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    #command: "./wildfly/bin/add-user.sh -u 'mgr' -p 'jboss123#' &&  /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
+    #volumes: 
+    #- ./target/nats-java-demo-1.0-SNAPSHOT.war:/opt/jboss/wildfly/standalone/deployments/nats-java-demo-1.0-SNAPSHOT.war
+    links:
+      - nats
+    depends_on:
+      - nats
+  nats:
+    image: nats:2.9.11 
+    ports:
+      - "4222:4222"
+      - "8222:8222"
